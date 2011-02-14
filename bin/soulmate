@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+begin
+  require 'redis'
+rescue LoadError
+  require 'rubygems'
+  require 'redis'
+end
+require 'soulmate'
+require 'optparse'
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: soulmate [options] COMMAND"
+
+  opts.separator ""
+  opts.separator "Options:"
+
+  opts.on("-r", "--redis [HOST:PORT]", "Redis connection string") do |host|
+    Soulmate.redis = host
+  end
+
+  opts.on("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+
+  opts.separator ""
+  opts.separator "Commands:"
+  opts.separator "  load TYPE   Loads items of specified type read from stdin in the JSON lines format"
+end
+
+def load(type)
+  puts "Loading items of type #{type}..."
+  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  total = Soulmate::Loader.new(type).load(items)
+  puts "Loaded a total of #{total} items"
+end
+
+parser.parse!
+
+case ARGV[0]
+when 'load'
+  load ARGV[1]
+else
+  puts parser.help
+end

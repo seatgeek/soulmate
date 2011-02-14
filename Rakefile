@@ -13,15 +13,18 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "soulmate"
-  gem.homepage = "http://github.com/erwaller/soulmate"
+  gem.homepage = "http://github.com/seatgeek/soulmate"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
+  gem.summary = %Q{Soulmate is a Redis-backed Ruby service that provides fast autocompleting.}
   gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "erwaller@gmail.com"
+  gem.email = "eric@seatgeek.com"
   gem.authors = ["Eric Waller"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
+  gem.add_runtime_dependency 'redis',   '>= 2.0'
+  gem.add_runtime_dependency 'vegas',   '>= 0.1.0'
+  gem.add_runtime_dependency 'sinatra', '>= 1.0'
+  gem.add_runtime_dependency 'json',    '~> 1.4.6'
   #  gem.add_development_dependency 'rspec', '> 1.2.3'
 end
 Jeweler::RubygemsDotOrgTasks.new
