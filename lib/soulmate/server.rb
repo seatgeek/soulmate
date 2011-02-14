@@ -15,6 +15,8 @@ module Soulmate
     end
     
     get '/search' do
+      raise Sinatra::NotFound unless (params[:term] and params[:types] and params[:types].is_a?(Array))
+      
       limit = (params[:limit] || 5).to_i
       types = params[:types].map { |t| normalize(t) }
       term  = params[:term]
