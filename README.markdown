@@ -21,7 +21,7 @@ An item is a simple JSON object that looks like:
       }
     }
 
-Where `id` is a unique identifier (within the specific type), `term` is the phrase you wish to provide completions for, `score` is a user-specified ranking metric (redis will order things lexigraphically for items with the same score), and `data` is an optional container for metadata you'd like to return when this item is matched (at SeatGeek we're including a url for the item as well as a subtitle for when we present it in an autocomplete dropdown).
+Where `id` is a unique identifier (within the specific type), `term` is the phrase you wish to provide completions for, `score` is a user-specified ranking metric (redis will order things lexicographically for items with the same score), and `data` is an optional container for metadata you'd like to return when this item is matched (at SeatGeek we're including a url for the item as well as a subtitle for when we present it in an autocomplete dropdown).
 
 See Soulmate in action at <a href="http://seatgeek.com/">SeatGeek</a>.
 
@@ -34,7 +34,7 @@ As always, kick things off with a `gem install`:
 
 ### Loading Items
 
-You can load data into Soulmate by piping items the JSON lines format into `soulmate load`.
+You can load data into Soulmate by piping items in the JSON lines format into `soulmate load TYPE`.
 
 Here's a sample `venues.json` (one JSON item per line):
 
