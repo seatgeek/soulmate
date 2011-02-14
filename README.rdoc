@@ -1,6 +1,30 @@
-= soulmate
+= Soulmate
 
-Description goes here.
+Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.
+
+Soulmate can offer suggestions for multiple types of items in a single query. An item is a simple JSON object that looks like:
+
+bc. {
+  "id": 3,
+  "term": "Citi Field",
+  "score": 81,
+  "data": {
+    "url": "/citi-field-tickets/",
+    "subtitle": "Flushing, NY"
+  }
+}
+
+Where `id` is a unique identifier (within the specific type), `term` is the phrase you wish to provide completions for, `score` is a user-specified ranking metric (redis will order things lexigraphically for items with the same score), and `data` is an optional container for metadata you'd like to return when this item is matched (at SeatGeek we're including a url for the item as well as a subtitle for when we present it in an autocomplete dropdown).
+
+You can load data into Soulmate by piping items into `soulmate load`, like so:
+
+Here's our `venues.json` (in the JSON lines format -- i.e. one JSON item per line):
+
+bc. {"id":1,"term":"Dodger Stadium","score":85,"data":{"url":"\/dodger-stadium-tickets\/","subtitle":"Los Angeles, CA"}}
+{"id":28,"term":"Angel Stadium","score":85,"data":{"url":"\/angel-stadium-tickets\/","subtitle":"Anaheim, CA"}}
+{"id":30,"term":"Chase Field ","score":85,"data":{"url":"\/chase-field-tickets\/","subtitle":"Phoenix, AZ"}}
+{"id":29,"term":"Sun Life Stadium","score":84,"data":{"url":"\/sun-life-stadium-tickets\/","subtitle":"Miami, FL"}}
+{"id":2,"term":"Turner Field","score":83,"data":{"url":"\/turner-field-tickets\/","subtitle":"Atlanta, GA"}}
 
 == Contributing to soulmate
  
