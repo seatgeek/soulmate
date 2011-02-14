@@ -1,4 +1,5 @@
-= Soulmate
+Soulmate
+========
 
 Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.
 
@@ -15,6 +16,9 @@ Soulmate can offer suggestions for multiple types of items in a single query. An
   }
 
 Where `id` is a unique identifier (within the specific type), `term` is the phrase you wish to provide completions for, `score` is a user-specified ranking metric (redis will order things lexigraphically for items with the same score), and `data` is an optional container for metadata you'd like to return when this item is matched (at SeatGeek we're including a url for the item as well as a subtitle for when we present it in an autocomplete dropdown).
+
+Getting Started
+---------------
 
 You can load data into Soulmate by piping items into `soulmate load`.
 
@@ -34,7 +38,42 @@ Once it's loaded, we can query this data by starting `soulmate-web`:
 
   $ soulmate-web --foreground --redis=redis://localhost:6379/0 --no-launch
 
-And viewing the service in your browser: <a href="http://localhost:5678/search?types[]=venue&term=stad">http://localhost:5678/search?types[]=venue&term=stad</a>.
+And viewing the service in your browser: <a href="http://localhost:5678/search?types[]=venue&term=stad">http://localhost:5678/search?types[]=venue&term=stad</a>. You should see something like:
+
+  {
+    "term": "stad",
+    "results": {
+      "venue": [
+        {
+          "id": 28,
+          "term": "Angel Stadium",
+          "score": 85,
+          "data": {
+            "url": "/angel-stadium-tickets/",
+            "subtitle": "Anaheim, CA"
+          }
+        },
+        {
+          "id": 1,
+          "term": "Dodger Stadium",
+          "score": 85,
+          "data": {
+            "url": "/dodger-stadium-tickets/",
+            "subtitle": "Los Angeles, CA"
+          }
+        },
+        {
+          "id": 29,
+          "term": "Sun Life Stadium",
+          "score": 84,
+          "data": {
+            "url": "/sun-life-stadium-tickets/",
+            "subtitle": "Miami, FL"
+          }
+        }
+      ]
+    }
+  }
 
 == Contributing to soulmate
  
