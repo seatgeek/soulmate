@@ -9,7 +9,7 @@ Soulmate was designed to be simple and fast, and offers the following:
  * Results are ordered by a user-specified score
  * Arbitrary metadata for each item (at SeatGeek we're storing both a url and a subtitle)
 
-Soulmate can offer suggestions for multiple types of items in a single query. An item is a simple JSON object that looks like:
+An item is a simple JSON object that looks like:
 
     {
       "id": 3,
