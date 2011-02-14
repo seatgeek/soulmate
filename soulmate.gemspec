@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{soulmate}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Waller"]
   s.date = %q{2011-02-14}
-  s.description = %q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finished your sentences.}
+  s.description = %q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.}
   s.email = %q{eric@seatgeek.com}
   s.executables = ["soulmate", "soulmate-web"]
   s.extra_rdoc_files = [
@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
-    "VERSION",
     "bin/soulmate",
     "bin/soulmate-web",
     "lib/soulmate.rb",
@@ -33,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/soulmate/loader.rb",
     "lib/soulmate/matcher.rb",
     "lib/soulmate/server.rb",
+    "lib/soulmate/version.rb",
     "soulmate.gemspec",
     "test/helper.rb",
     "test/test_soulmate.rb"
