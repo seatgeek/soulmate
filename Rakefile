@@ -18,6 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{Redis-backed service for fast autocompleting - extracted from SeatGeek}
   gem.description = %Q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.}
   gem.email = "eric@seatgeek.com"
+  gem.homepage = "http://github.com/seatgeek/soulmate"
   gem.authors = ["Eric Waller"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
