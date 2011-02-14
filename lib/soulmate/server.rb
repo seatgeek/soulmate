@@ -11,7 +11,7 @@ module Soulmate
     end
     
     get '/' do
-      '{ "soulmate": 1.0, "status": "ok" }'
+      '{ "soulmate": 0.1.0, "status": "ok" }'
     end
     
     get '/search' do
