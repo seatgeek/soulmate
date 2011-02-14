@@ -17,10 +17,16 @@ Soulmate can offer suggestions for multiple types of items in a single query. An
 
 Where `id` is a unique identifier (within the specific type), `term` is the phrase you wish to provide completions for, `score` is a user-specified ranking metric (redis will order things lexigraphically for items with the same score), and `data` is an optional container for metadata you'd like to return when this item is matched (at SeatGeek we're including a url for the item as well as a subtitle for when we present it in an autocomplete dropdown).
 
+See Soulmate in action at <a href="http://seatgeek.com/">SeatGeek</a>.
+
 Getting Started
 ---------------
 
-As always, 
+As always, kick things off with a `gem install`:
+
+    gem install soulmate
+
+### Loading Items
 
 You can load data into Soulmate by piping items the JSON lines format into `soulmate load`.
 
@@ -35,6 +41,8 @@ Here's a sample `venues.json` (one JSON item per line):
 And here's the load command (Soulmate assumes redis is running locally on the default port, or you can specify a redis connection string with the `--redis` argument):
 
     $ soulmate load venue --redis=redis://localhost:6379/0 < venues.json
+
+### Querying for Data
 
 Once it's loaded, we can query this data by starting `soulmate-web`:
 
@@ -76,6 +84,8 @@ And viewing the service in your browser: <a href="http://localhost:5678/search?t
         ]
       }
     }
+
+The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`.
 
 Contributing to soulmate
 ------------------------
