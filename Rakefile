@@ -15,7 +15,7 @@ Jeweler::Tasks.new do |gem|
   gem.name = "soulmate"
   gem.homepage = "http://github.com/seatgeek/soulmate"
   gem.license = "MIT"
-  gem.summary = %Q{Redis-backed service that provides fast autocompleting - extracted from SeatGeek}
+  gem.summary = %Q{Redis-backed service for fast autocompleting - extracted from SeatGeek}
   gem.description = %Q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finished your sentences.}
   gem.email = "eric@seatgeek.com"
   gem.authors = ["Eric Waller"]
