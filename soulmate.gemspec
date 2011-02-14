@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
     "lib/soulmate/loader.rb",
     "lib/soulmate/matcher.rb",
     "lib/soulmate/server.rb",
+    "soulmate.gemspec",
     "test/helper.rb",
     "test/test_soulmate.rb"
   ]
