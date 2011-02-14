@@ -1,7 +1,13 @@
 Soulmate
 ========
 
-Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.
+Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partially completed words and the corresponding top matching items, and provides a simple sinatra app to query them. Soulmate finishes your sentences.
+
+Soulmate was designed to be simple and fast, and offers the following:
+
+ * Provide suggestions for multiple types of items in a single query (at SeatGeek we're autocompleting for performers, events, and venues)
+ * Results are ordered by a user-specified score
+ * Arbitrary metadata for each item (at SeatGeek we're storing both a url and a subtitle)
 
 Soulmate can offer suggestions for multiple types of items in a single query. An item is a simple JSON object that looks like:
 
