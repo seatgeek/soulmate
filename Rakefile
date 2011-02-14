@@ -20,8 +20,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "eric@seatgeek.com"
   gem.homepage = "http://github.com/seatgeek/soulmate"
   gem.authors = ["Eric Waller"]
-  # Include your dependencies below. Runtime dependencies are required when using your gem,
-  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
+  # The versions specified here are pretty arbitrary right now...
   gem.add_runtime_dependency 'redis',   '>= 2.0'
   gem.add_runtime_dependency 'vegas',   '>= 0.1.0'
   gem.add_runtime_dependency 'sinatra', '>= 1.0'
