@@ -2,6 +2,7 @@ require 'uri'
 require 'json'
 require 'redis'
 
+require 'soulmate/version'
 require 'soulmate/helpers'
 require 'soulmate/base'
 require 'soulmate/matcher'

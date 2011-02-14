@@ -11,7 +11,7 @@ module Soulmate
     end
     
     get '/' do
-      '{ "soulmate": 0.1.0, "status": "ok" }'
+      JSON.pretty_generate({ :soulmate => Soulmate::Version::STRING, :status   => "ok" })
     end
     
     get '/search' do
@@ -21,7 +21,7 @@ module Soulmate
       
       results = {}
       types.each do |type|
-        matcher = Soulmate::Matcher.new(type)
+        matcher = Matcher.new(type)
         results[type] = matcher.matches_for_term(term, :limit => limit)
       end
       
@@ -32,7 +32,8 @@ module Soulmate
     end
     
     not_found do
-      '{ "error": "not found" }'
+      content_type 'application/json', :charset => 'utf-8'
+      JSON.pretty_generate({ :error => "not found" })
     end
     
   end
