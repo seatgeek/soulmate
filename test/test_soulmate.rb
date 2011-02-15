@@ -8,7 +8,9 @@ class TestSoulmate < Test::Unit::TestCase
       items << JSON.parse(venue)
     end
     
-    Soulmate::Loader.new('venues').load(items)
+    items_loaded = Soulmate::Loader.new('venues').load(items)
+    
+    assert_equal 5, items_loaded
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('stad', :limit => 5)
