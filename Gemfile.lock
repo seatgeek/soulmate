@@ -8,6 +8,7 @@ GEM
       rake
     rake (0.8.7)
     rcov (0.9.9)
+    redis (2.1.1)
     shoulda (2.11.3)
 
 PLATFORMS
@@ -17,4 +18,5 @@ DEPENDENCIES
   bundler (~> 1.0.0)
   jeweler (~> 1.5.2)
   rcov
+  redis (~> 2.1.1)
   shoulda
