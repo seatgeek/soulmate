@@ -6,10 +6,19 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
+    rack (1.2.2)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rake (0.8.7)
     rcov (0.9.9)
     redis (2.1.1)
     shoulda (2.11.3)
+    sinatra (1.2.3)
+      rack (~> 1.1)
+      tilt (>= 1.2.2, < 2.0)
+    tilt (1.2.2)
+    vegas (0.1.8)
+      rack (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -17,6 +26,9 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.0.0)
   jeweler (~> 1.5.2)
+  rack-contrib
   rcov
   redis (~> 2.1.1)
   shoulda
+  sinatra (~> 1.2.3)
+  vegas (~> 0.1.8)
