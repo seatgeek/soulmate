@@ -24,6 +24,7 @@ module Soulmate
         id    = item["id"]
         term  = item["term"]
         score = item["score"]
+        filters = item["filterable"] || {}
 
         if id and term
           # store the raw data in a separate key to reduce memory usage
@@ -32,6 +33,11 @@ module Soulmate
           prefixes_for_phrase(term).each do |p|
             Soulmate.redis.sadd(base, p) # remember this prefix in a master set
             Soulmate.redis.zadd("#{base}:#{p}", score, id) # store the id of this term in the index
+          end
+          
+          filters.each_pair do |index, value|
+            value = normalize(value).gsub(/ /, '')
+            Soulmate.redis.zadd("#{base}:#{p}filters:#{index}:#{value}", 0, id)
           end
           items_loaded += 1
         end
