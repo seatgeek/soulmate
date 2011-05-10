@@ -14,12 +14,12 @@ module Soulmate
 
       if !Soulmate.redis.exists(cachekey)
         interkeys = words.map { |w| "#{base}:#{w}" }
-        
+
         interkeys += options[:filters].to_a.map do |filter|
           value = filter.last.downcase.strip.gsub(/ /, '')
           "#{base}:filters:#{filter.first}:#{value}"
         end
-        p interkeys
+
         Soulmate.redis.zinterstore(cachekey, interkeys)
         Soulmate.redis.expire(cachekey, 10 * 60) # expire after 10 minutes
       end
