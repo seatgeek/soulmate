@@ -24,7 +24,8 @@ module Soulmate
       results = {}
       types.each do |type|
         matcher = Matcher.new(type)
-        results[type] = matcher.matches_for_term(term, :limit => limit)
+        filters = params[:filters] && params[:filters][type] ? params[:filters][type] : {}
+        results[type] = matcher.matches_for_term(term, :limit => limit, :filters => filters)
       end
       
       JSON.pretty_generate({
