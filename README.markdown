@@ -91,7 +91,7 @@ And viewing the service in your browser: <a href="http://localhost:5678/search?t
       }
     }
 
-The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`.
+The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`. You can also add the `callback` parameter to enable JSONP output.
 
 Contributing to soulmate
 ------------------------
