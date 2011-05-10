@@ -93,6 +93,12 @@ And viewing the service in your browser: <a href="http://localhost:5678/search?t
 
 The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`.
 
+### Filterable data
+
+If you want your data to be filterable by other arbitrary values, you can add them to a key called filterable as a hash in the format of indexName:value. This is useful when your items fall in to a number of discrete buckets, like zip code or city and you want to be able to narrow your results.
+
+You can specify filters in your URL to the server in the form of `filters[type][indexName]=value`, eg. `http://localhost:5678/search?types[]=event&filters[event][state]=CA&term=yank` to find events in California.
+
 Contributing to soulmate
 ------------------------
  
