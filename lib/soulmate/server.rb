@@ -6,8 +6,14 @@ module Soulmate
   class Server < Sinatra::Base
     include Helpers
     
-    before do
-      content_type 'application/json', :charset => 'utf-8'
+    def handle_jsonp(data)
+      if params[:callback]
+        content_type 'text/javascript', :charset => 'utf-8'
+        "#{params[:callback]}(#{data})"
+      else
+        content_type 'application/json', :charset => 'utf-8'
+        data
+      end
     end
     
     get '/' do
@@ -27,15 +33,14 @@ module Soulmate
         results[type] = matcher.matches_for_term(term, :limit => limit)
       end
       
-      JSON.pretty_generate({
+      handle_jsonp JSON.pretty_generate({
         :term    => params[:term],
         :results => results
       })
     end
     
     not_found do
-      content_type 'application/json', :charset => 'utf-8'
-      JSON.pretty_generate({ :error => "not found" })
+      handle_jsonp JSON.pretty_generate({ :error => "not found" })
     end
     
   end
