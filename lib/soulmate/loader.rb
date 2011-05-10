@@ -37,7 +37,7 @@ module Soulmate
           
           filters.each_pair do |index, value|
             value = normalize(value).gsub(/ /, '')
-            Soulmate.redis.sadd("#{base}:#{p}:filters:#{index}:#{value}", id)
+            Soulmate.redis.zadd("#{base}:#{p}filters:#{index}:#{value}", 0, id)
           end
           items_loaded += 1
         end
