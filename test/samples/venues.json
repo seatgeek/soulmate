@@ -1,5 +1,6 @@
-{"id":1,"term":"Dodger Stadium","score":85,"data":{"url":"\/dodger-stadium-tickets\/","subtitle":"Los Angeles, CA"},"aliases":["Chavez Ravine"]}
-{"id":28,"term":"Angel Stadium","score":85,"data":{"url":"\/angel-stadium-tickets\/","subtitle":"Anaheim, CA"},"aliases":["Edison International Field of Anaheim"]}
-{"id":30,"term":"Chase Field ","score":85,"data":{"url":"\/chase-field-tickets\/","subtitle":"Phoenix, AZ"},"aliases":["Bank One Ballpark", "Bank One Stadium"]}
-{"id":29,"term":"Sun Life Stadium","score":84,"data":{"url":"\/sun-life-stadium-tickets\/","subtitle":"Miami, FL"},"aliases":["Dolphins Stadium","Land Shark Stadium"]}
-{"id":2,"term":"Turner Field","score":83,"data":{"url":"\/turner-field-tickets\/","subtitle":"Atlanta, GA"}}
+{"id":1,"term":"Dodger Stadium","score":84,"data":{"url":"\/dodger-stadium-tickets\/","subtitle":"Los Angeles, CA"},"aliases":["Chavez Ravine"]}
+{"id":28,"term":"Angel Stadium","score":90,"data":{"url":"\/angel-stadium-tickets\/","subtitle":"Anaheim, CA"},"aliases":["Edison International Field of Anaheim"]}
+{"id":30,"term":"Chase Field ","score":80,"data":{"url":"\/chase-field-tickets\/","subtitle":"Phoenix, AZ"},"aliases":["Bank One Ballpark", "Bank One Stadium"]}
+{"id":29,"term":"Sun Life Stadium","score":75,"data":{"url":"\/sun-life-stadium-tickets\/","subtitle":"Miami, FL"},"aliases":["Dolphins Stadium","Land Shark Stadium"]}
+{"id":2,"term":"Turner Field","score":50,"data":{"url":"\/turner-field-tickets\/","subtitle":"Atlanta, GA"}}
+{"id":3,"term":"Citi Field","score":92,"data":{"url":"\/citi-field-tickets\/","subtitle":"Atlanta, GA"},"aliases":["Shea Stadium"]}

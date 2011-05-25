@@ -10,13 +10,13 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 5, items_loaded
+    assert_equal 6, items_loaded
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('stad', :limit => 5)
     
-    assert_equal 3, results.size
-    assert_equal 'Angel Stadium', results[0]['term']
+    assert_equal 5, results.size
+    assert_equal 'Citi Field', results[0]['term']
   end
   
   def test_integration_can_load_values_and_query_via_aliases
@@ -28,7 +28,7 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 5, items_loaded
+    assert_equal 6, items_loaded
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('land shark stadium', :limit => 5)
@@ -40,6 +40,6 @@ class TestSoulmate < Test::Unit::TestCase
     # this shouldn't happen due to Redis doing an intersect, but just in case!
     
     results = matcher.matches_for_term('stadium', :limit => 5)    
-    assert_equal 4, results.size
+    assert_equal 5, results.size
   end
 end
