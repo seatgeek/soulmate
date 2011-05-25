@@ -48,6 +48,8 @@ And here's the load command (Soulmate assumes redis is running locally on the de
 
     $ soulmate load venue --redis=redis://localhost:6379/0 < venues.json
 
+You can also provide an array of strings under the `aliases` key that will also be added to the index for this item.
+
 ### Querying for Data
 
 Once it's loaded, we can query this data by starting `soulmate-web`:
