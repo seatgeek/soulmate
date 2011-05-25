@@ -29,11 +29,10 @@ module Soulmate
           # store the raw data in a separate key to reduce memory usage
           Soulmate.redis.hset(database, id, JSON.dump(item))
 
-          ([term] + (item["aliases"] || [])).each do |term|
-            prefixes_for_phrase(term).each do |p|
-              Soulmate.redis.sadd(base, p) # remember this prefix in a master set
-              Soulmate.redis.zadd("#{base}:#{p}", score, id) # store the id of this term in the index
-            end
+          phrase = ([term] + (item["aliases"] || [])).join(' ')
+          prefixes_for_phrase(phrase).uniq.each do |p|
+            Soulmate.redis.sadd(base, p) # remember this prefix in a master set
+            Soulmate.redis.zadd("#{base}:#{p}", score, id) # store the id of this term in the index
           end
           items_loaded += 1
         end
