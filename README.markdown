@@ -56,7 +56,7 @@ Once it's loaded, we can query this data by starting `soulmate-web`:
 
     $ soulmate-web --foreground --no-launch --redis=redis://localhost:6379/0
 
-And viewing the service in your browser: <a href="http://localhost:5678/search?types[]=venue&term=stad">http://localhost:5678/search?types[]=venue&term=stad</a>. You should see something like:
+And viewing the service in your browser: http://localhost:5678/search?types[]=venue&term=stad. You should see something like:
 
     {
       "term": "stad",
