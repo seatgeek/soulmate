@@ -9,6 +9,8 @@ module Soulmate
         w.size < MIN_COMPLETE or STOP_WORDS.include?(w)
       end.sort
 
+      return [] if words.empty?
+
       cachekey = "#{cachebase}:" + words.join('|')
 
       if !options[:cache] || !Soulmate.redis.exists(cachekey)
