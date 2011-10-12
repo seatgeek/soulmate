@@ -42,4 +42,52 @@ class TestSoulmate < Test::Unit::TestCase
     results = matcher.matches_for_term('stadium', :limit => 5)    
     assert_equal 5, results.size
   end
+  
+  def test_can_remove_items
+    
+    loader = Soulmate::Loader.new('venues')
+    matcher = Soulmate::Matcher.new('venues')
+    
+    # empty the collection
+    loader.load([])
+    results = matcher.matches_for_term("te", :cache => false)
+    assert_equal 0, results.size
+    
+    loader.add("id" => 1, "term" => "Testing this", "score" => 10)
+    results = matcher.matches_for_term("te", :cache => false)
+    assert_equal 1, results.size
+    
+    loader.remove(1)
+    results = matcher.matches_for_term("te", :cache => false)
+    assert_equal 0, results.size
+    
+  end
+  
+  def test_can_update_items
+    
+    loader = Soulmate::Loader.new('venues')
+    matcher = Soulmate::Matcher.new('venues')
+    
+    # empty the collection
+    loader.load([])
+    
+    # initial data
+    loader.add("id" => 1, "term" => "Testing this", "score" => 10)
+    loader.add("id" => 2, "term" => "Another Term", "score" => 9)
+    loader.add("id" => 3, "term" => "Something different", "score" => 5)
+    
+    results = matcher.matches_for_term("te", :cache => false)
+    assert_equal 2, results.size
+    assert_equal "Testing this", results.first["term"]
+    assert_equal 10, results.first["score"]
+    
+    # update id:1
+    loader.add("id" => 1, "term" => "Updated", "score" => 5)
+    
+    results = matcher.matches_for_term("te", :cache => false)
+    assert_equal 1, results.size
+    assert_equal "Another Term", results.first["term"]
+    assert_equal 9, results.first["score"]
+    
+  end
 end
