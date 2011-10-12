@@ -19,14 +19,9 @@ module Soulmate
       # delete the data stored for this type
       Soulmate.redis.del(database)
 
-      items_loaded = 0
       items.each_with_index do |item, i|
         add(item, :skip_duplicate_check => true)
-        items_loaded += 1
-        puts "added #{i} entries" if i % 100 == 0 and i != 0
       end
-
-      items_loaded
     end
 
     # "id", "term", "score", "aliases", "data"
@@ -35,7 +30,7 @@ module Soulmate
       raise ArgumentError unless item["id"] && item["term"]
       
       # kill any old items with this id
-      remove(item["id"]) unless opts[:skip_duplicate_check]
+      remove("id" => item["id"]) unless opts[:skip_duplicate_check]
       
       # store the raw data in a separate key to reduce memory usage
       Soulmate.redis.hset(database, item["id"], JSON.dump(item))
@@ -46,8 +41,9 @@ module Soulmate
       end
     end
 
-    def remove(id, opts = {})
-      prev_item = Soulmate.redis.hget(database, id)
+    # remove only cares about an item's id, but for consistency takes an object
+    def remove(item)
+      prev_item = Soulmate.redis.hget(database, item["id"])
       if prev_item
         prev_item = JSON.load(prev_item)
         # undo the operations done in add

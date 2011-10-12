@@ -10,7 +10,7 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 6, items_loaded
+    assert_equal 6, items_loaded.size
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('stad', :limit => 5)
@@ -28,7 +28,7 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 6, items_loaded
+    assert_equal 6, items_loaded.size
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('land shark stadium', :limit => 5)
@@ -57,7 +57,7 @@ class TestSoulmate < Test::Unit::TestCase
     results = matcher.matches_for_term("te", :cache => false)
     assert_equal 1, results.size
     
-    loader.remove(1)
+    loader.remove("id" => 1)
     results = matcher.matches_for_term("te", :cache => false)
     assert_equal 0, results.size
     

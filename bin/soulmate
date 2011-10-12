@@ -27,7 +27,9 @@ parser = OptionParser.new do |opts|
 
   opts.separator ""
   opts.separator "Commands:"
-  opts.separator "  load TYPE   Loads items of specified type read from stdin in the JSON lines format"
+  opts.separator "  load   TYPE   Replaces collection specified by TYPE with items read from stdin in the JSON lines format"
+  opts.separator "  add    TYPE   Adds items to collection specified by TYPE read from stdin in the JSON lines format"
+  opts.separator "  remove TYPE   Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
 end
 
 def load(type)
@@ -37,11 +39,35 @@ def load(type)
   puts "Loaded a total of #{total} items"
 end
 
+def add(type)
+  puts "Adding items of type #{type}..."
+  loader = Soulmate::Loader.new(type)
+  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  items.each do |item|
+    loader.add(item)
+  end
+  puts "Loaded a total of #{items.size} items"
+end
+
+def remove(type)
+  puts "Removing items of type #{type}..."
+  loader = Soulmate::Loader.new(type)
+  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  items.each do |item|
+    loader.remove(item)
+  end
+  puts "Removed a total of #{items.size} items"
+end
+
 parser.parse!
 
 case ARGV[0]
 when 'load'
   load ARGV[1]
+when 'add'
+  add ARGV[1]
+when 'remove'
+  remove ARGV[1]
 else
   puts parser.help
 end
