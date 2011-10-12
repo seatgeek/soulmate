@@ -21,7 +21,7 @@ module Soulmate
 
       items_loaded = 0
       items.each_with_index do |item, i|
-        add(item)
+        add(item, :skip_duplicate_check => true)
         items_loaded += 1
         puts "added #{i} entries" if i % 100 == 0 and i != 0
       end
@@ -30,11 +30,12 @@ module Soulmate
     end
 
     # "id", "term", "score", "aliases", "data"
-    def add(item = {})
+    def add(item, opts = {})
+      opts = { :skip_duplicate_check => false }.merge(opts)
       raise ArgumentError unless item["id"] && item["term"]
       
       # kill any old items with this id
-      remove(item["id"])
+      remove(item["id"]) unless opts[:skip_duplicate_check]
       
       # store the raw data in a separate key to reduce memory usage
       Soulmate.redis.hset(database, item["id"], JSON.dump(item))
@@ -45,7 +46,7 @@ module Soulmate
       end
     end
 
-    def remove(id)
+    def remove(id, opts = {})
       prev_item = Soulmate.redis.hget(database, id)
       if prev_item
         prev_item = JSON.load(prev_item)
