@@ -6,6 +6,7 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
+    multi_json (1.0.3)
     rack (1.2.2)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
@@ -26,6 +27,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.0.0)
   jeweler (~> 1.5.2)
+  multi_json (~> 1.0.3)
   rack-contrib
   rcov
   redis (~> 2.1.1)

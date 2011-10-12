@@ -33,7 +33,7 @@ module Soulmate
       remove("id" => item["id"]) unless opts[:skip_duplicate_check]
       
       # store the raw data in a separate key to reduce memory usage
-      Soulmate.redis.hset(database, item["id"], JSON.dump(item))
+      Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
       phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
       prefixes_for_phrase(phrase).each do |p|
         Soulmate.redis.sadd(base, p) # remember this prefix in a master set
@@ -45,7 +45,7 @@ module Soulmate
     def remove(item)
       prev_item = Soulmate.redis.hget(database, item["id"])
       if prev_item
-        prev_item = JSON.load(prev_item)
+        prev_item = MultiJson.decode(prev_item)
         # undo the operations done in add
         Soulmate.redis.hdel(database, prev_item["id"])
         phrase = ([prev_item["term"]] + (prev_item["aliases"] || [])).join(' ')

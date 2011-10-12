@@ -5,7 +5,7 @@ class TestSoulmate < Test::Unit::TestCase
     items = []
     venues = File.open(File.expand_path(File.dirname(__FILE__)) + '/samples/venues.json', "r")
     venues.each_line do |venue|
-      items << JSON.parse(venue)
+      items << MultiJson.decode(venue)
     end
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
@@ -23,7 +23,7 @@ class TestSoulmate < Test::Unit::TestCase
     items = []
     venues = File.open(File.expand_path(File.dirname(__FILE__)) + '/samples/venues.json', "r")
     venues.each_line do |venue|
-      items << JSON.parse(venue)
+      items << MultiJson.decode(venue)
     end
     
     items_loaded = Soulmate::Loader.new('venues').load(items)

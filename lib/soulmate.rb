@@ -1,5 +1,5 @@
 require 'uri'
-require 'json'
+require 'multi_json'
 require 'redis'
 
 require 'soulmate/version'

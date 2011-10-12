@@ -35,7 +35,7 @@ end
 
 def load(type)
   puts "Loading items of type #{type}..."
-  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
   total = Soulmate::Loader.new(type).load(items)
   puts "Loaded a total of #{total} items"
 end
@@ -43,7 +43,7 @@ end
 def add(type)
   puts "Adding items of type #{type}..."
   loader = Soulmate::Loader.new(type)
-  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
   items.each do |item|
     loader.add(item)
   end
@@ -53,7 +53,7 @@ end
 def remove(type)
   puts "Removing items of type #{type}..."
   loader = Soulmate::Loader.new(type)
-  items = $stdin.read.split("\n").map { |l| JSON.parse(l) }
+  items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
   items.each do |item|
     loader.remove(item)
   end
@@ -65,7 +65,7 @@ def query(type, query)
   matcher = Soulmate::Matcher.new(type)
   results = matcher.matches_for_term(query, :limit => 0)
   results.each do |item|
-    puts JSON.dump(item)
+    puts MultiJson.encode(item)
   end
   puts "> Found #{results.size} matches"
 end
