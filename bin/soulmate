@@ -36,8 +36,8 @@ end
 def load(type)
   puts "Loading items of type #{type}..."
   items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
-  total = Soulmate::Loader.new(type).load(items)
-  puts "Loaded a total of #{total} items"
+  loaded = Soulmate::Loader.new(type).load(items)
+  puts "Loaded a total of #{loaded.size} items"
 end
 
 def add(type)
