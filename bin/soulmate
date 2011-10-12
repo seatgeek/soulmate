@@ -27,9 +27,10 @@ parser = OptionParser.new do |opts|
 
   opts.separator ""
   opts.separator "Commands:"
-  opts.separator "  load   TYPE   Replaces collection specified by TYPE with items read from stdin in the JSON lines format"
-  opts.separator "  add    TYPE   Adds items to collection specified by TYPE read from stdin in the JSON lines format"
-  opts.separator "  remove TYPE   Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
+  opts.separator "  load   TYPE        Replaces collection specified by TYPE with items read from stdin in the JSON lines format."
+  opts.separator "  add    TYPE        Adds items to collection specified by TYPE read from stdin in the JSON lines format."
+  opts.separator "  remove TYPE        Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
+  opts.separator "  query  TYPE QUERY  Queries for items from collection specified by TYPE."
 end
 
 def load(type)
@@ -59,6 +60,16 @@ def remove(type)
   puts "Removed a total of #{items.size} items"
 end
 
+def query(type, query)
+  puts "> Querying '#{type}' for '#{query}'"
+  matcher = Soulmate::Matcher.new(type)
+  results = matcher.matches_for_term(query, :limit => 0)
+  results.each do |item|
+    puts JSON.dump(item)
+  end
+  puts "> Found #{results.size} matches"
+end
+
 parser.parse!
 
 case ARGV[0]
@@ -68,6 +79,8 @@ when 'add'
   add ARGV[1]
 when 'remove'
   remove ARGV[1]
+when 'query'
+  query ARGV[1], ARGV[2]
 else
   puts parser.help
 end
