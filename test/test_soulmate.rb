@@ -90,4 +90,12 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal 9, results.first["score"]
     
   end
+  
+  def test_prefixes_for_phrase
+    loader = Soulmate::Loader.new('venues')
+    
+    assert_equal ["te", "tes", "test", "testi", "testin", "th", "thi", "this"], loader.prefixes_for_phrase("testin' this")
+    assert_equal ["te", "tes", "test"], loader.prefixes_for_phrase("test test")
+    assert_equal ["so", "sou", "soul", "soulm", "soulma", "soulmat", "soulmate"], loader.prefixes_for_phrase("SoUlmATE")
+  end
 end
