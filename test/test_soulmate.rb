@@ -60,6 +60,38 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal 2.0, first_result['lat']
     assert_equal 2.0, first_result['long']
   end
+
+  def test_integration_geo_rank_option
+    items = []
+    venues = File.open(File.expand_path(File.dirname(__FILE__)) + '/samples/venues.json', "r")
+    venues.each_line do |venue|
+      items << MultiJson.decode(venue)
+    end
+
+    items_loaded = Soulmate::Loader.new('venues').load(items)
+    assert_equal 6, items_loaded.size
+
+    matcher = Soulmate::Matcher.new('venues')
+    results = matcher.matches_for_term('stad', :lat => 2.0, :long => 2.0, :geo_rank => '2')
+
+    assert_equal 2, results.size
+  end
+
+  def test_integration_geo_rank_unused
+    items = []
+    venues = File.open(File.expand_path(File.dirname(__FILE__)) + '/samples/venues.json', "r")
+    venues.each_line do |venue|
+      items << MultiJson.decode(venue)
+    end
+
+    items_loaded = Soulmate::Loader.new('venues').load(items)
+    assert_equal 6, items_loaded.size
+
+    matcher = Soulmate::Matcher.new('venues')
+    results = matcher.matches_for_term('stad', :lat => 2.0, :long => 2.0, :geo_rank => nil)
+
+    assert_equal 5, results.size # Because there are only 5 entries with stadium
+  end
   
   def test_can_remove_items
     

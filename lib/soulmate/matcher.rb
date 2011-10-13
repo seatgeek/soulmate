@@ -5,7 +5,8 @@ module Soulmate
   class Matcher < Base
 
     def matches_for_term(term, options = {})
-      options = { :limit => 5, :cache => true }.merge(options)
+      # Default limit of 0 means no limit.
+      options = { :limit => 0, :cache => true }.merge(options)
       
       words = normalize(term).split(' ').reject do |w|
         w.size < MIN_COMPLETE or STOP_WORDS.include?(w)
@@ -30,7 +31,7 @@ module Soulmate
           search_point = ::Geokit::LatLng.new(options[:lat], options[:long])
           matches.sort! {|a,b| ::Geokit::LatLng.new(a["lat"], a["long"]).distance_to(search_point) <=> ::Geokit::LatLng.new(b["lat"], b["long"]).distance_to(search_point) }
         end
-        matches
+        options[:geo_rank] ? matches.first(options[:geo_rank].to_i) : matches
       else
         []
       end

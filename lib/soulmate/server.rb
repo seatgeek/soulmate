@@ -28,7 +28,7 @@ module Soulmate
         matcher = Matcher.new(type)
         options = {
         }
-        results[type] = matcher.matches_for_term(term, :limit => params[:limit].to_i, :lat => params[:lat], :long => params[:long])
+        results[type] = matcher.matches_for_term(term, :limit => params[:limit].to_i, :lat => params[:lat], :long => params[:long], :geo_rank => params[:geo_rank].to_i)
       end
       
       MultiJson.encode({
