@@ -7,9 +7,8 @@ class TestSoulmate < Test::Unit::TestCase
     venues.each_line do |venue|
       items << MultiJson.decode(venue)
     end
-    
+
     items_loaded = Soulmate::Loader.new('venues').load(items)
-    
     assert_equal 6, items_loaded.size
     
     matcher = Soulmate::Matcher.new('venues')
@@ -41,6 +40,25 @@ class TestSoulmate < Test::Unit::TestCase
     
     results = matcher.matches_for_term('stadium', :limit => 5)    
     assert_equal 5, results.size
+  end
+
+  def test_integration_ranks_values_via_geo_proximity
+    items = []
+    venues = File.open(File.expand_path(File.dirname(__FILE__)) + '/samples/venues.json', "r")
+    venues.each_line do |venue|
+      items << MultiJson.decode(venue)
+    end
+
+    items_loaded = Soulmate::Loader.new('venues').load(items)
+    assert_equal 6, items_loaded.size
+
+    matcher = Soulmate::Matcher.new('venues')
+    results = matcher.matches_for_term('stad', :limit => 5, :lat => 2.0, :long => 2.0)
+
+    first_result = results.first
+    assert_equal 'Angel Stadium', first_result['term']
+    assert_equal 2.0, first_result['lat']
+    assert_equal 2.0, first_result['long']
   end
   
   def test_can_remove_items

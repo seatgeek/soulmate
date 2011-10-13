@@ -1,3 +1,5 @@
+require 'geokit'
+
 module Soulmate
 
   class Matcher < Base
@@ -21,9 +23,14 @@ module Soulmate
 
       ids = Soulmate.redis.zrevrange(cachekey, 0, options[:limit] - 1)
       if ids.size > 0
-        Soulmate.redis.hmget(database, *ids)
+        matches = Soulmate.redis.hmget(database, *ids)
           .reject{ |r| r.nil? } # handle cached results for ids which have since been deleted
           .map { |r| MultiJson.decode(r) }
+        if options[:lat] && options[:long]
+          search_point = ::Geokit::LatLng.new(options[:lat], options[:long])
+          matches.sort! {|a,b| ::Geokit::LatLng.new(a["lat"], a["long"]).distance_to(search_point) <=> ::Geokit::LatLng.new(b["lat"], b["long"]).distance_to(search_point) }
+        end
+        matches
       else
         []
       end

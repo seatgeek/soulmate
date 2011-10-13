@@ -41,4 +41,5 @@ test/db/*.rdb
 #.\#*
 #
 # For vim:
-#*.swp
+*.swp
+*.swo

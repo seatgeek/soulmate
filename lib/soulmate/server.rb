@@ -27,7 +27,7 @@ module Soulmate
       results = {}
       types.each do |type|
         matcher = Matcher.new(type)
-        results[type] = matcher.matches_for_term(term, :limit => limit)
+        results[type] = matcher.matches_for_term(term, :limit => limit, :lat => params[:lat], :long => params[:long])
       end
       
       MultiJson.encode({
