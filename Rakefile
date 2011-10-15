@@ -13,7 +13,7 @@ require 'jeweler'
 require './lib/soulmate/version.rb'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name      = "soulmate"
+  gem.name      = "soulmate-ravibhim"
   gem.version   = Soulmate::Version::STRING
   gem.homepage  = "http://github.com/seatgeek/soulmate"
   gem.license   = "MIT"
