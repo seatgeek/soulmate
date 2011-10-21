@@ -17,3 +17,5 @@ gem 'multi_json',   "~> 1.0.3"
 gem 'rack-contrib'
 gem 'vegas',        "~> 0.1.8"
 gem 'sinatra',      "~> 1.2.3"
+gem 'geokit',       ">= 1.6.0"
+gem 'json_pure', ">= 1.6.1", :require => 'json/pure'

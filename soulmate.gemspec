@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{soulmate}
+  s.name = %q{soulmate-ravibhim}
   s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -66,7 +66,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<redis>, [">= 2.0"])
       s.add_runtime_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_runtime_dependency(%q<json>, ["~> 1.4.6"])
+      s.add_runtime_dependency(%q<json>, ["~> 1.6.1"])
     else
       s.add_dependency(%q<redis>, ["~> 2.1.1"])
       s.add_dependency(%q<multi_json>, ["~> 1.0.3"])
@@ -80,7 +80,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<redis>, [">= 2.0"])
       s.add_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_dependency(%q<json>, ["~> 1.4.6"])
+      s.add_dependency(%q<json>, ["~> 1.6.1"])
     end
   else
     s.add_dependency(%q<redis>, ["~> 2.1.1"])
@@ -95,7 +95,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<redis>, [">= 2.0"])
     s.add_dependency(%q<vegas>, [">= 0.1.0"])
     s.add_dependency(%q<sinatra>, [">= 1.0"])
-    s.add_dependency(%q<json>, ["~> 1.4.6"])
+    s.add_dependency(%q<json>, ["~> 1.6.1"])
   end
 end
 
