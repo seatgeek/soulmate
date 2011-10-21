@@ -95,6 +95,22 @@ And viewing the service in your browser: http://localhost:5678/search?types[]=ve
 
 The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`. You can also add the `callback` parameter to enable JSONP output.
 
+### Mounting soulmate into a rails app
+
+If you are integrating Soulmate into a rails app, an alternative to launching a separate 'soulmate-web' server is to mount the sinatra app inside of rails:
+
+Add this to your routes.rb:
+
+    mount Soulmate::Server, :at => "/sm"
+
+Add this to gemfile:
+
+    gem 'rack-contrib'
+    gem 'soulmate', :require => 'soulmate/server'
+
+Then you can query soulmate at the /sm url, for example: "http://localhost:3000/sm/search?types[]=venues&limit=6&term=kitten"
+
+
 Contributing to soulmate
 ------------------------
  
@@ -108,6 +124,5 @@ Contributing to soulmate
 Copyright
 ---------
 
-Copyright (c) 2011 Eric Waller. See LICENSE.txt for
-further details.
+Copyright (c) 2011 Eric Waller. See LICENSE.txt for further details.
 
