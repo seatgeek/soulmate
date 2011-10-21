@@ -97,9 +97,9 @@ The `/search` method supports multiple `types` as well as an optional `limit`. F
 
 ### Mounting soulmate into a rails app
 
-If you are integrating Soulmate into a rails app, an alternative to launching a separate 'soulmate-web' server is to mount the sinatra app inside of rails:
+If you are integrating Soulmate into a rails app, an alternative to launching a separate 'soulmate-web' server is to mount the sinatra app inside of rails.
 
-Add this to your routes.rb:
+Add this to routes.rb:
 
     mount Soulmate::Server, :at => "/sm"
 
@@ -108,7 +108,7 @@ Add this to gemfile:
     gem 'rack-contrib'
     gem 'soulmate', :require => 'soulmate/server'
 
-Then you can query soulmate at the /sm url, for example: "http://localhost:3000/sm/search?types[]=venues&limit=6&term=kitten"
+Then you can query soulmate at the /sm url, for example: http://localhost:3000/sm/search?types[]=venues&limit=6&term=kitten
 
 
 Contributing to soulmate
