@@ -45,7 +45,7 @@ Rcov::RcovTask.new do |test|
   test.verbose = true
 end
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
