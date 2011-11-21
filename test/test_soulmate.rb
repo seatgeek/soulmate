@@ -98,4 +98,32 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal ["te", "tes", "test"], loader.prefixes_for_phrase("test test")
     assert_equal ["so", "sou", "soul", "soulm", "soulma", "soulmat", "soulmate"], loader.prefixes_for_phrase("SoUlmATE")
   end
+  
+  def test_souls_have_separate_results
+    loader_1 = Soulmate::Loader.new('venues', '1')
+    matcher_1 = Soulmate::Matcher.new('venues', '1')
+    loader_2 = Soulmate::Loader.new('venues', '2')
+    matcher_2 = Soulmate::Matcher.new('venues', '2')
+    
+    # empty the collection
+    loader_1.load([])
+    loader_2.load([])
+    
+    # initial data
+    loader_1.add("id" => 1, "term" => "Testing this", "score" => 10)
+    loader_1.add("id" => 2, "term" => "Another Term", "score" => 9)
+    loader_1.add("id" => 3, "term" => "Something different", "score" => 5)
+    
+    loader_2.add("id" => 1, "term" => "Yet another test", "score" => 10)
+    loader_2.add("id" => 2, "term" => "Some other term", "score" => 9)
+    loader_2.add("id" => 3, "term" => "Something different", "score" => 5)
+    
+    results_1 = matcher_1.matches_for_term("ye", :cache => false)
+    assert_equal 0, results_1.size
+    
+    results_2 = matcher_2.matches_for_term("ye", :cache => false)
+    assert_equal 1, results_2.size
+  end
+    
+    
 end
