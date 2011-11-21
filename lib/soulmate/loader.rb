@@ -4,12 +4,13 @@ module Soulmate
 
     def load(items)
       # delete the sorted sets for this type
-      # wrap in multi/exec?
       phrases = Soulmate.redis.smembers(base)
-      phrases.each do |p|
-        Soulmate.redis.del("#{base}:#{p}")
+      Soulmate.redis.pipelined do
+        phrases.each do |p|
+          Soulmate.redis.del("#{base}:#{p}")
+        end
+        Soulmate.redis.del(base)
       end
-      Soulmate.redis.del(base)
 
       # Redis can continue serving cached requests for this type while the reload is
       # occuring. Some requests may be cached incorrectly as empty set (for requests
@@ -32,11 +33,11 @@ module Soulmate
       # kill any old items with this id
       remove("id" => item["id"]) unless opts[:skip_duplicate_check]
       
-      # store the raw data in a separate key to reduce memory usage
-      Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
-      phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
-      prefixes_for_phrase(phrase).each do |p|
-        Soulmate.redis.pipelined do
+      Soulmate.redis.pipelined do
+        # store the raw data in a separate key to reduce memory usage
+        Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
+        phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
+        prefixes_for_phrase(phrase).each do |p|
           Soulmate.redis.sadd(base, p) # remember this prefix in a master set
           Soulmate.redis.zadd("#{base}:#{p}", item["score"], item["id"]) # store the id of this term in the index
         end
@@ -49,10 +50,10 @@ module Soulmate
       if prev_item
         prev_item = MultiJson.decode(prev_item)
         # undo the operations done in add
-        Soulmate.redis.hdel(database, prev_item["id"])
-        phrase = ([prev_item["term"]] + (prev_item["aliases"] || [])).join(' ')
-        prefixes_for_phrase(phrase).each do |p|
-          Soulmate.redis.pipelined do
+        Soulmate.redis.pipelined do
+          Soulmate.redis.hdel(database, prev_item["id"])
+          phrase = ([prev_item["term"]] + (prev_item["aliases"] || [])).join(' ')
+          prefixes_for_phrase(phrase).each do |p|
             Soulmate.redis.srem(base, p)
             Soulmate.redis.zrem("#{base}:#{p}", prev_item["id"])
           end
