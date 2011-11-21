@@ -95,6 +95,11 @@ And viewing the service in your browser: http://localhost:5678/search?types[]=ve
 
 The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`. You can also add the `callback` parameter to enable JSONP output.
 
+###Multiple Souls
+If you want to have a personalized search for individual users, you can use the Souls feature when you load your data in with the `-s` or `--soul` flag like so
+	$ soulmate load venue -s 1 < venues.json
+The soul can be called whatever you like, here we're using it as a user id.  So know when you want to query an autocomplete for user 1, you just fetch `http://localhost:5678/search?types[]=event&limit=3&term=yank&soul=1`
+
 ### Mounting soulmate into a rails app
 
 If you are integrating Soulmate into a rails app, an alternative to launching a separate 'soulmate-web' server is to mount the sinatra app inside of rails.
