@@ -100,7 +100,7 @@ If you want to have a personalized search for individual users, you can use the 
 
     $ soulmate load venue -s 1 < venues.json
 
-The soul can be called whatever you like, here we're using it as a user id.  So know when you want to query an autocomplete for user 1, you just fetch `http://localhost:5678/search?types[]=event&limit=3&term=yank&soul=1`
+The soul can be called whatever you like, here we're using it as a user id.  So now when you want to query an autocomplete for user 1, you just fetch `http://localhost:5678/search?types[]=event&limit=3&term=yank&soul=1`
 
 ### Mounting soulmate into a rails app
 
