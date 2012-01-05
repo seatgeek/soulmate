@@ -14,12 +14,16 @@ module Soulmate
       "soulmate-index:#{type}"
     end
 
-    def database
+    def data_base
       "soulmate-data:#{type}"
     end
 
-    def cachebase
+    def cache_base
       "soulmate-cache:#{type}"
+    end
+
+    def secondary_index_base
+      "soulmate-secondary-index:#{type}"
     end
   end
 end

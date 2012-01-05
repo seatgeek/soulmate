@@ -18,7 +18,7 @@ module Soulmate
       # everything will work itself out as soon as the cache expires again.
 
       # delete the data stored for this type
-      Soulmate.redis.del(database)
+      Soulmate.redis.del(data_base)
 
       items.each_with_index do |item, i|
         add(item, :skip_duplicate_check => true)
@@ -35,23 +35,37 @@ module Soulmate
       
       Soulmate.redis.pipelined do
         # store the raw data in a separate key to reduce memory usage
-        Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
+        Soulmate.redis.hset(data_base, item["id"], MultiJson.encode(item))
+        
         phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
-        prefixes_for_phrase(phrase).each do |p|
+        prefixes = prefixes_for_phrase(phrase)
+        
+        # store the main index
+        prefixes.each do |p|
           Soulmate.redis.sadd(base, p) # remember this prefix in a master set
           Soulmate.redis.zadd("#{base}:#{p}", item["score"], item["id"]) # store the id of this term in the index
+        end
+        
+        # store secondary indexes
+        indexes = item["indexes"] || []
+        indexes.each do |index|
+          Soulmate.redis.sadd(secondary_index_base, index) # remember this index
+          prefixes.each do |p|
+            Soulmate.redis.sadd("#{secondary_index_base}:#{index}", p) # remember this prefix in a master set for this secondary index
+            Soulmate.redis.zadd("#{secondary_index_base}:#{index}:#{p}", item["score"], item["id"]) # store the id of this term in the secondary index
+          end
         end
       end
     end
 
     # remove only cares about an item's id, but for consistency takes an object
     def remove(item)
-      prev_item = Soulmate.redis.hget(database, item["id"])
+      prev_item = Soulmate.redis.hget(data_base, item["id"])
       if prev_item
         prev_item = MultiJson.decode(prev_item)
         # undo the operations done in add
         Soulmate.redis.pipelined do
-          Soulmate.redis.hdel(database, prev_item["id"])
+          Soulmate.redis.hdel(data_base, prev_item["id"])
           phrase = ([prev_item["term"]] + (prev_item["aliases"] || [])).join(' ')
           prefixes_for_phrase(phrase).each do |p|
             Soulmate.redis.srem(base, p)

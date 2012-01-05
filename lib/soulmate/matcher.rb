@@ -11,7 +11,7 @@ module Soulmate
 
       return [] if words.empty?
 
-      cachekey = "#{cachebase}:" + words.join('|')
+      cachekey = "#{cache_base}:" + words.join('|')
 
       if !options[:cache] || !Soulmate.redis.exists(cachekey)
         interkeys = words.map { |w| "#{base}:#{w}" }
@@ -21,7 +21,7 @@ module Soulmate
 
       ids = Soulmate.redis.zrevrange(cachekey, 0, options[:limit] - 1)
       if ids.size > 0
-        results = Soulmate.redis.hmget(database, *ids)
+        results = Soulmate.redis.hmget(data_base, *ids)
         results = results.reject{ |r| r.nil? } # handle cached results for ids which have since been deleted
         results.map { |r| MultiJson.decode(r) }
       else
