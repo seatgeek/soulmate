@@ -22,7 +22,7 @@ parser = OptionParser.new do |opts|
 
   opts.on("-s", "--stop-words [FILE]", "Path to file containing a list of stop words") do |fn|
     File.open(fn) do |file|
-      Soulmate.stop_words = file.readlines.map{ |l| l.strip }
+      Soulmate.stop_words = file.readlines.map{ |l| l.strip }.reject{ |w| w.empty? }
     end
   end
 
