@@ -5,7 +5,9 @@ module Soulmate
     def matches_for_term(term, options = {})
       options = { :limit => 5, :cache => true }.merge(options)
       
-      words = normalize(term).split(' ').reject{ |w| w.size < MIN_COMPLETE }.sort
+      words = normalize(term).split(' ').reject do |w|
+        w.size < MIN_COMPLETE or Soulmate.stop_words.include?(w)
+      end.sort
 
       return [] if words.empty?
 
