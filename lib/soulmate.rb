@@ -13,7 +13,7 @@ module Soulmate
   extend self
 
   MIN_COMPLETE = 2
-  STOP_WORDS = ["vs", "at"]
+  DEFAULT_STOP_WORDS = ["vs", "at", "the"]
 
   def redis=(url)
     @redis = nil
@@ -32,6 +32,14 @@ module Soulmate
         :password => url.password
       })
     )
+  end
+
+  def stop_words
+    @stop_words ||= DEFAULT_STOP_WORDS
+  end
+
+  def stop_words=(arr)
+    @stop_words = Array(arr).flatten
   end
 
 end

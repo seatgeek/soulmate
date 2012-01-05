@@ -94,6 +94,10 @@ class TestSoulmate < Test::Unit::TestCase
   def test_prefixes_for_phrase
     loader = Soulmate::Loader.new('venues')
     
+    Soulmate.stop_words = ['the']
+    
+    assert_equal ["kn", "kni", "knic", "knick", "knicks"], loader.prefixes_for_phrase("the knicks")
+    assert_equal ["te", "tes", "test", "testi", "testin", "th", "thi", "this"], loader.prefixes_for_phrase("testin' this")
     assert_equal ["te", "tes", "test", "testi", "testin", "th", "thi", "this"], loader.prefixes_for_phrase("testin' this")
     assert_equal ["te", "tes", "test"], loader.prefixes_for_phrase("test test")
     assert_equal ["so", "sou", "soul", "soulm", "soulma", "soulmat", "soulmate"], loader.prefixes_for_phrase("SoUlmATE")
