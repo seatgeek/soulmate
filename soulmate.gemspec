@@ -67,7 +67,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<redis>, [">= 2.0"])
       s.add_runtime_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_runtime_dependency(%q<json>, ["~> 1.4.6"])
+      s.add_runtime_dependency(%q<json>, [">= 1.4.6"])
     else
       s.add_dependency(%q<redis>, ["~> 2.1.1"])
       s.add_dependency(%q<multi_json>, ["~> 1.0.3"])
@@ -81,7 +81,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<redis>, [">= 2.0"])
       s.add_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_dependency(%q<json>, ["~> 1.4.6"])
+      s.add_dependency(%q<json>, [">= 1.4.6"])
     end
   else
     s.add_dependency(%q<redis>, ["~> 2.1.1"])
@@ -96,7 +96,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<redis>, [">= 2.0"])
     s.add_dependency(%q<vegas>, [">= 0.1.0"])
     s.add_dependency(%q<sinatra>, [">= 1.0"])
-    s.add_dependency(%q<json>, ["~> 1.4.6"])
+    s.add_dependency(%q<json>, [">= 1.4.6"])
   end
 end
 
