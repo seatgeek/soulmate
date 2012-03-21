@@ -12,7 +12,7 @@ group :development do
 end
 
 gem 'redis',        "~> 2.1.1"
-gem 'multi_json',   "~> 1.0.3"
+gem 'multi_json',   "~> 1"
 gem 'rack-contrib'
-gem 'vegas',        "~> 0.1.8"
-gem 'sinatra',      "~> 1.2.3"
+gem 'vegas',        "~> 0.1"
+gem 'sinatra',      "~> 1.3"
