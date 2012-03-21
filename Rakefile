@@ -22,12 +22,13 @@ Jeweler::Tasks.new do |gem|
   gem.email     = "eric@seatgeek.com"
   gem.homepage  = "http://github.com/seatgeek/soulmate"
   gem.authors   = ["Eric Waller"]
-  # The versions specified here are pretty arbitrary right now...
-  gem.add_runtime_dependency 'redis',   '>= 2.0'
-  gem.add_runtime_dependency 'vegas',   '>= 0.1.0'
-  gem.add_runtime_dependency 'sinatra', '>= 1.0'
-  gem.add_runtime_dependency 'json',    '~> 1.4.6'
-  #  gem.add_development_dependency 'rspec', '> 1.2.3'
+  gem.add_development_dependency "shoulda", ">= 0"
+  gem.add_development_dependency "bundler", "~> 1.0"
+  gem.add_development_dependency "jeweler", "~> 1.5"
+  gem.add_runtime_dependency 'redis',       '>= 2.0'
+  gem.add_runtime_dependency 'vegas',       '>= 0.1.0'
+  gem.add_runtime_dependency 'sinatra',     '>= 1.0'
+  gem.add_runtime_dependency 'multi_json',  '>= 1.0'
 end
 Jeweler::RubygemsDotOrgTasks.new
 

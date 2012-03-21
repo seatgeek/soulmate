@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Waller"]
-  s.date = %q{2012-01-05}
+  s.date = %q{2012-03-21}
   s.description = %q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.}
   s.email = %q{eric@seatgeek.com}
   s.executables = ["soulmate", "soulmate-web"]
@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
     "README.markdown",
     "Rakefile",
@@ -55,48 +54,48 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<redis>, ["~> 2.1.1"])
-      s.add_runtime_dependency(%q<multi_json>, ["~> 1.0.3"])
-      s.add_runtime_dependency(%q<rack-contrib>, [">= 0"])
-      s.add_runtime_dependency(%q<vegas>, ["~> 0.1.8"])
-      s.add_runtime_dependency(%q<sinatra>, ["~> 1.2.3"])
+      s.add_runtime_dependency(%q<soulmate>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5"])
+      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5"])
       s.add_runtime_dependency(%q<redis>, [">= 2.0"])
       s.add_runtime_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_runtime_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_runtime_dependency(%q<json>, [">= 1.4.6"])
+      s.add_runtime_dependency(%q<multi_json>, [">= 1.0"])
     else
-      s.add_dependency(%q<redis>, ["~> 2.1.1"])
-      s.add_dependency(%q<multi_json>, ["~> 1.0.3"])
-      s.add_dependency(%q<rack-contrib>, [">= 0"])
-      s.add_dependency(%q<vegas>, ["~> 0.1.8"])
-      s.add_dependency(%q<sinatra>, ["~> 1.2.3"])
+      s.add_dependency(%q<soulmate>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5"])
+      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5"])
       s.add_dependency(%q<redis>, [">= 2.0"])
       s.add_dependency(%q<vegas>, [">= 0.1.0"])
       s.add_dependency(%q<sinatra>, [">= 1.0"])
-      s.add_dependency(%q<json>, [">= 1.4.6"])
+      s.add_dependency(%q<multi_json>, [">= 1.0"])
     end
   else
-    s.add_dependency(%q<redis>, ["~> 2.1.1"])
-    s.add_dependency(%q<multi_json>, ["~> 1.0.3"])
-    s.add_dependency(%q<rack-contrib>, [">= 0"])
-    s.add_dependency(%q<vegas>, ["~> 0.1.8"])
-    s.add_dependency(%q<sinatra>, ["~> 1.2.3"])
+    s.add_dependency(%q<soulmate>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5"])
+    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5"])
     s.add_dependency(%q<redis>, [">= 2.0"])
     s.add_dependency(%q<vegas>, [">= 0.1.0"])
     s.add_dependency(%q<sinatra>, [">= 1.0"])
-    s.add_dependency(%q<json>, [">= 1.4.6"])
+    s.add_dependency(%q<multi_json>, [">= 1.0"])
   end
 end
 
