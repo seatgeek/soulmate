@@ -22,13 +22,7 @@ Jeweler::Tasks.new do |gem|
   gem.email     = "eric@seatgeek.com"
   gem.homepage  = "http://github.com/seatgeek/soulmate"
   gem.authors   = ["Eric Waller"]
-  gem.add_development_dependency "shoulda", ">= 0"
-  gem.add_development_dependency "bundler", "~> 1.0"
-  gem.add_development_dependency "jeweler", "~> 1.5"
-  gem.add_runtime_dependency 'redis',       '>= 2.0'
-  gem.add_runtime_dependency 'vegas',       '>= 0.1.0'
-  gem.add_runtime_dependency 'sinatra',     '>= 1.0'
-  gem.add_runtime_dependency 'multi_json',  '>= 1.0'
+  # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
 
