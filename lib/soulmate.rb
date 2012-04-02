@@ -7,6 +7,8 @@ require 'soulmate/helpers'
 require 'soulmate/base'
 require 'soulmate/matcher'
 require 'soulmate/loader'
+require 'soulmate/phrase_loader'
+require 'soulmate/phrase_matcher'
 
 module Soulmate
 
