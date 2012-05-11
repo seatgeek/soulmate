@@ -1,13 +1,18 @@
 module Soulmate
   module Helpers
 
-    def prefixes_for_phrase(phrase)
+    def word_prefixes_for_phrase(phrase)
       words = normalize(phrase).split(' ').reject do |w|
         Soulmate.stop_words.include?(w)
       end
       words.map do |w|
         (MIN_COMPLETE-1..(w.length-1)).map{ |l| w[0..l] }
       end.flatten.uniq
+
+    end
+
+    def prefixes_for_phrase(phrase)
+      (MIN_COMPLETE-1..(phrase.length-1)).map{ |l| phrase[0..l] }.flatten.uniq
     end
 
     def normalize(str)
