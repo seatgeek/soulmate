@@ -19,10 +19,6 @@ parser = OptionParser.new do |opts|
   opts.on("-r", "--redis [HOST:PORT]", "Redis connection string") do |host|
     Soulmate.redis = host
   end
-  
-  opts.on("-s", "--soul [SOUL]", "Set the soul. Useful for having separate search sets for different users.") do |soul|
-    SOUL = soul
-  end
 
   opts.on("-s", "--stop-words [FILE]", "Path to file containing a list of stop words") do |fn|
     File.open(fn) do |file|
@@ -46,13 +42,13 @@ end
 def load(type)
   puts "Loading items of type #{type}..."
   items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
-  loaded = Soulmate::Loader.new(type, SOUL).load(items)
+  loaded = Soulmate::Loader.new(type).load(items)
   puts "Loaded a total of #{loaded.size} items"
 end
 
 def add(type)
   puts "Adding items of type #{type}..."
-  loader = Soulmate::Loader.new(type, SOUL)
+  loader = Soulmate::Loader.new(type)
   items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
   items.each do |item|
     loader.add(item)

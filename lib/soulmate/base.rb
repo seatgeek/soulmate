@@ -6,33 +6,20 @@ module Soulmate
     
     attr_accessor :type
     
-    def initialize(type, soul=nil)
+    def initialize(type)
       @type = normalize(type)
-      @soul = normalize(soul) unless soul == nil
     end
     
     def base
-      if @soul
-        "soulmate-index:#{@soul}:#{type}"
-      else
-        "soulmate-index:#{type}"
-      end
+      "soulmate-index:#{type}"
     end
 
     def database
-      if @soul
-        "soulmate-data:#{@soul}:#{type}"
-      else
-        "soulmate-data:#{type}"
-      end
+      "soulmate-data:#{type}"
     end
 
     def cachebase
-      if @soul
-        "soulmate-cache:#{@soul}:#{type}"
-      else
-        "soulmate-cache:#{type}"
-      end
+      "soulmate-cache:#{type}"
     end
   end
 end
