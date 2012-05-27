@@ -13,7 +13,7 @@ module Soulmate
   extend self
 
   MIN_COMPLETE = 2
-  STOP_WORDS = ["vs", "at"]
+  DEFAULT_STOP_WORDS = ["vs", "at", "the"]
 
   def redis=(url)
     @redis = nil
@@ -23,7 +23,7 @@ module Soulmate
 
   def redis
     @redis ||= (
-      url = URI(@redis_url || "redis://127.0.0.1:6379/0")
+      url = URI(@redis_url || ENV["REDIS_URL"] || "redis://127.0.0.1:6379/0")
 
       ::Redis.new({
         :host => url.host,
@@ -32,6 +32,14 @@ module Soulmate
         :password => url.password
       })
     )
+  end
+
+  def stop_words
+    @stop_words ||= DEFAULT_STOP_WORDS
+  end
+
+  def stop_words=(arr)
+    @stop_words = Array(arr).flatten
   end
 
 end

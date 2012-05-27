@@ -117,6 +117,9 @@ Add this to gemfile:
 
 Then you can query soulmate at the /sm url, for example: http://localhost:3000/sm/search?types[]=venues&limit=6&term=kitten
 
+### Rendering an autocompleter
+
+Soulmate doesn't include any client-side code necessary to render an autocompleter, but Mitch Crowe put together a pretty cool looking jquery plugin designed for exactly that: <a href="https://github.com/mcrowe/soulmate.js">soulmate.js</a>.
 
 Contributing to soulmate
 ------------------------
