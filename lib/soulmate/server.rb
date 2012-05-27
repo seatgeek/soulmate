@@ -23,11 +23,10 @@ module Soulmate
       limit = (params[:limit] || 5).to_i
       types = params[:types].map { |t| normalize(t) }
       term  = params[:term]
-      soul = params[:soul]
       
       results = {}
       types.each do |type|
-        matcher = Matcher.new(type, soul)
+        matcher = Matcher.new(type)
         results[type] = matcher.matches_for_term(term, :limit => limit)
       end
       
