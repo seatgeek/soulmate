@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{soulmate}
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Waller"]
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "lib/soulmate/base.rb",
     "lib/soulmate/helpers.rb",
     "lib/soulmate/loader.rb",
+    "lib/soulmate/loader.lua",
     "lib/soulmate/matcher.rb",
     "lib/soulmate/server.rb",
     "lib/soulmate/version.rb",
