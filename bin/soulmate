@@ -33,17 +33,42 @@ parser = OptionParser.new do |opts|
 
   opts.separator ""
   opts.separator "Commands:"
-  opts.separator "  load   TYPE        Replaces collection specified by TYPE with items read from stdin in the JSON lines format."
-  opts.separator "  add    TYPE        Adds items to collection specified by TYPE read from stdin in the JSON lines format."
-  opts.separator "  remove TYPE        Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
-  opts.separator "  query  TYPE QUERY  Queries for items from collection specified by TYPE."
+  opts.separator "  load   TYPE FILE BATCH  Replaces collection specified by TYPE with items read from FILE in the JSON lines format, BATCH lines at a time (default of 10000)."
+  opts.separator "  add    TYPE             Adds items to collection specified by TYPE read from stdin in the JSON lines format."
+  opts.separator "  remove TYPE             Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
+  opts.separator "  query  TYPE QUERY       Queries for items from collection specified by TYPE."
 end
 
-def load(type)
-  puts "Loading items of type #{type}..."
-  items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
-  loaded = Soulmate::Loader.new(type).load(items)
-  puts "Loaded a total of #{loaded.size} items"
+def load(type, file)
+  if File.exists?(file)
+    batch_size = ARGV[3].to_i.zero? ? 10000 : ARGV[3].to_i
+    start_time = Time.now.to_i
+
+    puts "Purging existing items of type #{type} ..."
+    loader = Soulmate::Loader.new(type)
+    loader.cleanup
+
+    puts "Loading items of type #{type} in batches of #{batch_size} ..."
+    count = 0
+    begin
+      f = File.open(file)
+      while !f.eof?
+        lines = []
+        batch_size.times do
+          break if f.eof?
+          lines << MultiJson.decode(f.gets)
+          count += 1
+        end
+        loader.load(lines)
+        puts "Loaded #{count} items ..." unless f.eof?
+      end
+    ensure
+      f.close
+    end
+    puts "Loaded a total of #{count} items in #{Time.now.to_i - start_time} second(s)"
+  else
+    puts "Couldn't open file: #{file}"
+  end
 end
 
 def add(type)
@@ -80,7 +105,7 @@ parser.parse!
 
 case ARGV[0]
 when 'load'
-  load ARGV[1]
+  load ARGV[1], ARGV[2]
 when 'add'
   add ARGV[1]
 when 'remove'

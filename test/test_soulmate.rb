@@ -49,7 +49,7 @@ class TestSoulmate < Test::Unit::TestCase
     matcher = Soulmate::Matcher.new('venues')
     
     # empty the collection
-    loader.load([])
+    loader.cleanup
     results = matcher.matches_for_term("te", :cache => false)
     assert_equal 0, results.size
     
@@ -69,7 +69,7 @@ class TestSoulmate < Test::Unit::TestCase
     matcher = Soulmate::Matcher.new('venues')
     
     # empty the collection
-    loader.load([])
+    loader.cleanup
     
     # initial data
     loader.add("id" => 1, "term" => "Testing this", "score" => 10)
