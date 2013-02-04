@@ -14,7 +14,7 @@ module Soulmate
 
     def normalize(str)
       # Letter, number and unicode words (Chinese, Japanese, etc.)
-      str.downcase.gsub(/[^a-z0-9\s\p{word}]/i, '').strip
+      str.downcase.gsub(/[^\p{Word}\ ]/i, '').strip
     end
 
   end
