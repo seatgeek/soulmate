@@ -15,9 +15,14 @@ module Soulmate
   MIN_COMPLETE = 2
   DEFAULT_STOP_WORDS = ["vs", "at", "the"]
 
-  def redis=(url)
-    @redis = nil
-    @redis_url = url
+  def redis=(server)
+    if server.is_a?(String)
+      @redis = nil
+      @redis_url = server
+    else
+      @redis = server
+    end
+
     redis
   end
 
