@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'helper'
 
 class TestSoulmate < Test::Unit::TestCase
@@ -10,7 +12,7 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 6, items_loaded.size
+    assert_equal 7, items_loaded.size
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('stad', :limit => 5)
@@ -28,7 +30,7 @@ class TestSoulmate < Test::Unit::TestCase
     
     items_loaded = Soulmate::Loader.new('venues').load(items)
     
-    assert_equal 6, items_loaded.size
+    assert_equal 7, items_loaded.size
     
     matcher = Soulmate::Matcher.new('venues')
     results = matcher.matches_for_term('land shark stadium', :limit => 5)
@@ -36,6 +38,11 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal 1, results.size
     assert_equal 'Sun Life Stadium', results[0]['term']
     
+    # Test Chinese
+    results = matcher.matches_for_term('中国', :limit => 5)
+    assert_equal 1, results.size
+    assert_equal '中国佛山 李小龙', results[0]['term']
+
     # Make sure we don't get dupes between aliases and the original term
     # this shouldn't happen due to Redis doing an intersect, but just in case!
     
@@ -101,5 +108,7 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal ["te", "tes", "test", "testi", "testin", "th", "thi", "this"], loader.prefixes_for_phrase("testin' this")
     assert_equal ["te", "tes", "test"], loader.prefixes_for_phrase("test test")
     assert_equal ["so", "sou", "soul", "soulm", "soulma", "soulmat", "soulmate"], loader.prefixes_for_phrase("SoUlmATE")
+
+    assert_equal ['测试', '测试中', '测试中文', 'te', 'tes', 'test'], loader.prefixes_for_phrase('测试中文 test')
   end
 end

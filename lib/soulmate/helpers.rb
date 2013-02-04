@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module Soulmate
   module Helpers
 
@@ -11,7 +13,8 @@ module Soulmate
     end
 
     def normalize(str)
-      str.downcase.gsub(/[^a-z0-9 ]/i, '').strip
+      # Letter, number and unicode words (Chinese, Japanese, etc.)
+      str.downcase.gsub(/[^\p{Word}\ ]/i, '').strip
     end
 
   end
