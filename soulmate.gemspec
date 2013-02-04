@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{soulmate}
-  s.version = "0.1.3"
+  s.name = "soulmate"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Waller"]
-  s.date = %q{2012-03-29}
-  s.description = %q{Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences.}
-  s.email = %q{eric@seatgeek.com}
+  s.date = "2013-02-04"
+  s.description = "Soulmate is a tool to help solve the common problem of developing a fast autocomplete feature. It uses Redis's sorted sets to build an index of partial words and corresponding top matches, and provides a simple sinatra app to query them. Soulmate finishes your sentences."
+  s.email = "eric@seatgeek.com"
   s.executables = ["soulmate", "soulmate-web"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -40,15 +40,11 @@ Gem::Specification.new do |s|
     "test/test.conf",
     "test/test_soulmate.rb"
   ]
-  s.homepage = %q{http://github.com/seatgeek/soulmate}
+  s.homepage = "http://github.com/seatgeek/soulmate"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Redis-backed service for fast autocompleting - extracted from SeatGeek}
-  s.test_files = [
-    "test/helper.rb",
-    "test/test_soulmate.rb"
-  ]
+  s.rubygems_version = "1.8.24"
+  s.summary = "Redis-backed service for fast autocompleting - extracted from SeatGeek"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
