@@ -12,8 +12,14 @@ module Soulmate
 
   extend self
 
-  MIN_COMPLETE = 2
+  DEFAULT_MIN_COMPLETE = 2
   DEFAULT_STOP_WORDS = ["vs", "at", "the"]
+
+  attr_writer :min_complete
+
+  def min_complete
+    @min_complete ||= DEFAULT_MIN_COMPLETE
+  end
 
   def redis=(server)
     if server.is_a?(String)
