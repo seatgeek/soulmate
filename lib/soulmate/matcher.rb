@@ -13,7 +13,7 @@ module Soulmate
 
       cachekey = "#{cachebase}:" + words.join('|')
 
-      if !options[:cache] || !Soulmate.redis.exists(cachekey)
+      if !options[:cache] || !Soulmate.redis.exists(cachekey) || Soulmate.redis.exists(cachekey) == 0
         interkeys = words.map { |w| "#{base}:#{w}" }
         Soulmate.redis.zinterstore(cachekey, interkeys)
         Soulmate.redis.expire(cachekey, 10 * 60) # expire after 10 minutes
