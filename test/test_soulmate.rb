@@ -108,7 +108,9 @@ class TestSoulmate < Test::Unit::TestCase
     assert_equal ["te", "tes", "test", "testi", "testin", "th", "thi", "this"], loader.prefixes_for_phrase("testin' this")
     assert_equal ["te", "tes", "test"], loader.prefixes_for_phrase("test test")
     assert_equal ["so", "sou", "soul", "soulm", "soulma", "soulmat", "soulmate"], loader.prefixes_for_phrase("SoUlmATE")
-
     assert_equal ['测试', '测试中', '测试中文', 'te', 'tes', 'test'], loader.prefixes_for_phrase('测试中文 test')
+
+    Soulmate.min_complete = 4
+    assert_equal ['同华东生', '同华东生产', '同华东生产队', 'abcd', 'abcde'], loader.prefixes_for_phrase('同华东生产队 abcde')
   end
 end

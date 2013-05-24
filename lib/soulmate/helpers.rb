@@ -8,7 +8,7 @@ module Soulmate
         Soulmate.stop_words.include?(w)
       end
       words.map do |w|
-        (MIN_COMPLETE-1..(w.length-1)).map{ |l| w[0..l] }
+        (Soulmate.min_complete-1..(w.length-1)).map{ |l| w[0..l] }
       end.flatten.uniq
     end
 
