@@ -99,23 +99,23 @@ The `/search` method supports multiple `types` as well as an optional `limit`. F
 
 You can tell soulmate that a particular item should be filterable on a given set of dimensions by including 
 
-  filterable_by: [:zip, :state]
+  `filterable_by: [:zip, :state]`
 
 when adding the item. As in:
 
-loader.add {"id":1,"term":"Dodger Stadium","score":85, filterable_by: [:zip, :state], "data":{"url":"\/dodger-stadium-tickets\/", "zip" => 12345, "state" => "CA", "subtitle":"Los Angeles, CA"}}
+`loader.add {"id":1,"term":"Dodger Stadium","score":85, filterable_by: [:zip, :state], "data":{"url":"\/dodger-stadium-tickets\/", "zip" => 12345, "state" => "CA", "subtitle":"Los Angeles, CA"}}`
 
 If you want to then filter when performing a match, you can call: 
 
-  matches = Soulmate::Matcher.new('venue').matches_for_term(term, limit: options[:limit], filter_by: { zip: 12345, state: "CA" } )
+  `matches = Soulmate::Matcher.new('venue').matches_for_term(term, limit: options[:limit], filter_by: { zip: 12345, state: "CA" } )`
 
 and it will limit the items returned for autocomplete to just those in zip 12345 AND the state of California (this is somewhat redudant in this particular example).  You can also include an array of criteria, for example:
 
-  filter_by: { state: ["CA", "NY", "FL" ] }
+  `filter_by: { state: ["CA", "NY", "FL" ] }`
 
 and it will return items where the state is CA, NY, or FL.    Within a given dimension you will get the union of all possible sets, while across dimensions it's the intersection.  In otherwords,
 
-  filter_by { state: ["CA", "NY", "FL"], sport: ["baseball", "football"] }
+  `filter_by { state: ["CA", "NY", "FL"], sport: ["baseball", "football"] }`
 
 should return all hypothetical baseball or football venues in CA, NY, or FL. 
 
