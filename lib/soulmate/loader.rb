@@ -25,10 +25,12 @@ module Soulmate
       end
     end
 
-    # "id", "term", "score", "aliases", "data"
+    # "id", "term", "score", "aliases", "data", "filterable_by"
     def add(item, opts = {})
       opts = { :skip_duplicate_check => false }.merge(opts)
       raise ArgumentError unless item["id"] && item["term"]
+
+      filterable_by = item[:filterable_by]
       
       # kill any old items with this id
       remove("id" => item["id"]) unless opts[:skip_duplicate_check]
@@ -36,6 +38,12 @@ module Soulmate
       Soulmate.redis.pipelined do
         # store the raw data in a separate key to reduce memory usage
         Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
+
+
+        filterable_by.each do |filter|
+          Soulmate.redis.zadd filter_key(filter.to_s.downcase, item["data"][filter.to_s].downcase), item["score"], item["id"]
+        end
+
         phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
         prefixes_for_phrase(phrase).each do |p|
           Soulmate.redis.sadd(base, p) # remember this prefix in a master set
@@ -52,6 +60,7 @@ module Soulmate
         # undo the operations done in add
         Soulmate.redis.pipelined do
           Soulmate.redis.hdel(database, prev_item["id"])
+          #TODO: remove from all filter sets
           phrase = ([prev_item["term"]] + (prev_item["aliases"] || [])).join(' ')
           prefixes_for_phrase(phrase).each do |p|
             Soulmate.redis.srem(base, p)
