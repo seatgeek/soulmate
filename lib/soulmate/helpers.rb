@@ -13,8 +13,12 @@ module Soulmate
     end
 
     def normalize(str)
-      # Letter, Mark, Number, Connector_Punctuation (Chinese, Japanese, etc.)
-      str.downcase.gsub(/[^\p{Word}\ ]/i, '').strip
+      # Letter, Mark, Number, Connector_Punctuation (Chinese, Japanese, etc.), spaces
+      str.downcase.gsub(/[^\p{Word}\ ]|\s+/i, '')
+    end
+
+    def filter_key(dimension, value)
+      "#{filters}:#{normalize(dimension)}:#{normalize(value)}"
     end
 
   end

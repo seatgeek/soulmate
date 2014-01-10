@@ -18,6 +18,10 @@ module Soulmate
       "soulmate-data:#{type}"
     end
 
+    def filters
+      "soulmate-filters:#{type}"
+    end
+
     def cachebase
       "soulmate-cache:#{type}"
     end

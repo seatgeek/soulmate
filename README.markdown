@@ -95,6 +95,30 @@ And viewing the service in your browser: http://localhost:5678/search?types[]=ve
 
 The `/search` method supports multiple `types` as well as an optional `limit`. For example: `http://localhost:5678/search?types[]=event&types[]=venue&types[]=performer&limit=3&term=yank`. You can also add the `callback` parameter to enable JSONP output.
 
+### Filtering results
+
+You can tell soulmate that a particular item should be filterable on a given set of dimensions by including 
+
+  `filterable_by: [:zip, :state]`
+
+when adding the item. As in:
+
+`loader.add {"id":1,"term":"Dodger Stadium","score":85, filterable_by: [:zip, :state], "data":{"url":"\/dodger-stadium-tickets\/", "zip" => 12345, "state" => "CA", "subtitle":"Los Angeles, CA"}}`
+
+If you want to then filter when performing a match, you can call: 
+
+  `matches = Soulmate::Matcher.new('venue').matches_for_term(term, limit: options[:limit], filter_by: { zip: 12345, state: "CA" } )`
+
+and it will limit the items returned for autocomplete to just those in zip 12345 AND the state of California (this is somewhat redudant in this particular example).  You can also include an array of criteria, for example:
+
+  `filter_by: { state: ["CA", "NY", "FL" ] }`
+
+and it will return items where the state is CA, NY, or FL.    Within a given dimension you will get the union of all possible sets, while across dimensions it's the intersection.  In otherwords,
+
+  `filter_by { state: ["CA", "NY", "FL"], sport: ["baseball", "football"] }`
+
+should return all hypothetical baseball or football venues in CA, NY, or FL. 
+
 ### Mounting soulmate into a rails app
 
 If you are integrating Soulmate into a rails app, an alternative to launching a separate 'soulmate-web' server is to mount the sinatra app inside of rails.
