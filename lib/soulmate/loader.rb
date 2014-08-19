@@ -28,7 +28,7 @@ module Soulmate
     # "id", "term", "score", "aliases", "data"
     def add(item, opts = {})
       opts = { :skip_duplicate_check => false }.merge(opts)
-      raise ArgumentError unless item["id"] && item["term"]
+      raise ArgumentError, "Items must specify both an id and a term" unless item["id"] && item["term"]
       
       # kill any old items with this id
       remove("id" => item["id"]) unless opts[:skip_duplicate_check]
