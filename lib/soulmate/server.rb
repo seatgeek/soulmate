@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'soulmate'
-require 'rack/contrib'
+require 'rack/jsonp'
 
 module Soulmate
 
