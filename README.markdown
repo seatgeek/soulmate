@@ -1,3 +1,5 @@
+> > Soulmate is no longer being actively maintained. For a similar project that is still actively developed, check out [soulheart](https://github.com/sethherr/soulheart)
+
 Soulmate
 ========
 
