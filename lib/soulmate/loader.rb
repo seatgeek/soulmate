@@ -25,7 +25,7 @@ module Soulmate
       end
     end
 
-    # "id", "term", "score", "aliases", "data"
+    # "id", "term", "score", "aliases", "data", "indices"
     def add(item, opts = {})
       opts = { :skip_duplicate_check => false }.merge(opts)
       raise ArgumentError, "Items must specify both an id and a term" unless item["id"] && item["term"]
@@ -40,6 +40,15 @@ module Soulmate
         prefixes_for_phrase(phrase).each do |p|
           Soulmate.redis.sadd(base, p) # remember this prefix in a master set
           Soulmate.redis.zadd("#{base}:#{p}", item["score"], item["id"]) # store the id of this term in the index
+        end
+        # build indices
+        if item["indices"]
+          item["indices"].each do |index|
+            prefixes_for_phrase(phrase).each do |p|
+              Soulmate.redis.sadd("#{base}:#{index}:#{item["data"][index]}", p) # remember this prefix in a master set
+              Soulmate.redis.zadd("#{base}:#{index}:#{item["data"][index]}:#{p}", item["score"], item["id"]) # store the id of this term in the index
+            end
+          end
         end
       end
     end
@@ -56,6 +65,15 @@ module Soulmate
           prefixes_for_phrase(phrase).each do |p|
             Soulmate.redis.srem(base, p)
             Soulmate.redis.zrem("#{base}:#{p}", prev_item["id"])
+          end
+
+          if prev_item["indices"]
+            prev_item["indices"].each do |index|
+              prefixes_for_phrase(phrase).each do |p|
+                Soulmate.redis.srem("#{base}:#{index}:#{prev_item["data"][index]}", p) # remember this prefix in a master set
+                Soulmate.redis.zrem("#{base}:#{index}:#{prev_item["data"][index]}:#{p}", prev_item["id"]) # store the id of this term in the index
+              end
+            end
           end
         end
       end
