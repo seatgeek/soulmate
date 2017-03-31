@@ -17,3 +17,5 @@ pkg
 test/db/*.rdb
 
 Gemfile.lock
+
+.rvmrc

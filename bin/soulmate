@@ -9,6 +9,7 @@ rescue LoadError
 end
 require 'soulmate'
 require 'optparse'
+require 'tempfile'
 
 parser = OptionParser.new do |opts|
   opts.banner = "Usage: soulmate [options] COMMAND"
@@ -31,19 +32,98 @@ parser = OptionParser.new do |opts|
     exit
   end
 
+  opts.on("-b", "--batch-size", "Number of lines to read at a time") do |size|
+    BATCH_SIZE = size
+  end
+
   opts.separator ""
   opts.separator "Commands:"
-  opts.separator "  load   TYPE        Replaces collection specified by TYPE with items read from stdin in the JSON lines format."
-  opts.separator "  add    TYPE        Adds items to collection specified by TYPE read from stdin in the JSON lines format."
-  opts.separator "  remove TYPE        Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
-  opts.separator "  query  TYPE QUERY  Queries for items from collection specified by TYPE."
+  opts.separator "  load   TYPE FILE  Replaces collection specified by TYPE with items read from FILE in the JSON lines format."
+  opts.separator "  add    TYPE       Adds items to collection specified by TYPE read from stdin in the JSON lines format."
+  opts.separator "  remove TYPE       Removes items from collection specified by TYPE read from stdin in the JSON lines format. Items only require an 'id', all other fields are ignored."
+  opts.separator "  query  TYPE QUERY Queries for items from collection specified by TYPE."
 end
 
-def load(type)
-  puts "Loading items of type #{type}..."
-  items = $stdin.read.split("\n").map { |l| MultiJson.decode(l) }
-  loaded = Soulmate::Loader.new(type).load(items)
-  puts "Loaded a total of #{loaded.size} items"
+def generate(type, file)
+  include Soulmate::Helpers
+
+  begin
+    temp = Tempfile.new("soulmate")
+
+    if File.exists?(file)
+      start_time = Time.now.to_i
+      base = "soulmate-index:#{type}"
+      database = "soulmate-data:#{type}"
+      # hset = "*4\r\n$4\r\nHSET\r\n$#{database.length}\r\n#{database}\r\n$"
+      # del = "*2\r\n$3\r\nDEL\r\n$"
+      begin
+        f = File.open(file)
+        # cleanup
+        phrases = Soulmate.redis.smembers(base)
+        phrases.each do |phrase|
+          temp << gen_redis_proto("DEL", phrase)
+          # temp << del + phrase.length.to_s + "\r\n" + phrase + "\r\n"
+        end
+        temp << gen_redis_proto("DEL", base)
+        # temp << del + base.length.to_s + "\r\n" + base + "\r\n"
+        while !f.eof?
+          line = f.gets.chomp
+          line =~ /"id":(\d+)/
+          id = $1
+          line =~ /"score":(\d+)/
+          score = $1
+          json = MultiJson.decode(line)
+          temp << gen_redis_proto("HSET", database, id, line)
+          # temp << hset + $1.length.to_s + "\r\n" + $1 + "\r\n$" + line.length.to_s + "\r\n" + line + "\r\n"
+          phrase = json.key?("aliases") ? json["term"] + " " + json["aliases"] : json["term"]
+          prefixes_for_phrase(phrase).each do |p|
+            temp << gen_redis_proto("SADD", base, p)
+            temp << gen_redis_proto("ZADD", base + ":" + p, score, id)
+          end
+        end
+      ensure
+        f.close
+      end
+      puts "Converted in #{Time.now.to_i - start_time} second(s)"
+      puts "Importing into redis ..."
+      `time redis-cli --pipe < #{temp.path}`
+    else
+      puts "Couldn't open file: #{file}"
+    end
+  ensure
+    temp.close
+  end
+end
+
+def load(type, file)
+  if File.exists?(file)
+    start_time = Time.now.to_i
+
+    puts "Purging existing items of type #{type} ..."
+    loader = Soulmate::Loader.new(type)
+    loader.cleanup
+
+    puts "Loading items of type #{type} in batches of #{BATCH_SIZE} ..."
+    count = 0
+    begin
+      f = File.open(file)
+      while !f.eof?
+        lines = []
+        BATCH_SIZE.times do
+          break if f.eof?
+          lines << MultiJson.decode(f.gets)
+          count += 1
+        end
+        loader.load(lines)
+        puts "Loaded #{count} items ..." unless f.eof?
+      end
+    ensure
+      f.close
+    end
+    puts "Loaded a total of #{count} items in #{Time.now.to_i - start_time} second(s)"
+  else
+    puts "Couldn't open file: #{file}"
+  end
 end
 
 def add(type)
@@ -76,11 +156,23 @@ def query(type, query)
   puts "> Found #{results.size} matches"
 end
 
+def gen_redis_proto(*cmd)
+  proto = "*"+cmd.length.to_s+"\r\n"
+  cmd.each{|arg|
+    proto << "$"+arg.bytesize.to_s+"\r\n"
+    proto << arg+"\r\n"
+  }
+  proto
+end
+
 parser.parse!
+BATCH_SIZE ||= 1000
 
 case ARGV[0]
+when 'generate'
+  generate ARGV[1], ARGV[2]
 when 'load'
-  load ARGV[1]
+  load ARGV[1], ARGV[2]
 when 'add'
   add ARGV[1]
 when 'remove'
