@@ -2,6 +2,11 @@ module Soulmate
 
   class Loader < Base
 
+    def initialize(type)
+      lua_script = File.open(File.dirname(__FILE__) + "/loader.lua", "rb").read
+      @lua_sha = Soulmate.redis.script(:load, lua_script)
+      super
+    end
     def load(items)
       # delete the sorted sets for this type
       phrases = Soulmate.redis.smembers(base)
@@ -37,10 +42,11 @@ module Soulmate
         # store the raw data in a separate key to reduce memory usage
         Soulmate.redis.hset(database, item["id"], MultiJson.encode(item))
         phrase = ([item["term"]] + (item["aliases"] || [])).join(' ')
-        prefixes_for_phrase(phrase).each do |p|
-          Soulmate.redis.sadd(base, p) # remember this prefix in a master set
-          Soulmate.redis.zadd("#{base}:#{p}", item["score"], item["id"]) # store the id of this term in the index
-        end
+        Soulmate.redis.evalsha(@lua_sha, [base], [2, phrase, item["score"], item["id"]])
+        # prefixes_for_phrase(phrase).each do |p|
+        #   Soulmate.redis.sadd(base, p) # remember this prefix in a master set
+        #   Soulmate.redis.zadd("#{base}:#{p}", item["score"], item["id"]) # store the id of this term in the index
+        # end
       end
     end
 

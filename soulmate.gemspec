@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "lib/soulmate/config.rb",
     "lib/soulmate/helpers.rb",
     "lib/soulmate/loader.rb",
+    "lib/soulmate/loader.lua",
     "lib/soulmate/matcher.rb",
     "lib/soulmate/server.rb",
     "lib/soulmate/version.rb",
